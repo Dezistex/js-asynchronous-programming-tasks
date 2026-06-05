@@ -1,5 +1,10 @@
 import fsp from 'fs/promises';
 
-// BEGIN
-
-// END
+export const getTypes = (paths) => {
+  const promises = paths.map((p) =>
+    fsp.stat(p)
+      .then((stat) => (stat.isDirectory() ? 'directory' : 'file'))
+      .catch(() => null),
+  );
+  return Promise.all(promises);
+};

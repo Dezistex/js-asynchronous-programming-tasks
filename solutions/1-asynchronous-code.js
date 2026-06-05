@@ -1,5 +1,10 @@
 import fs from 'fs';
 
-// BEGIN
+const print = (filepath) => {
+  fs.readFile(filepath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    console.log(data);
+  });
+};
 
-// END
+export default print;

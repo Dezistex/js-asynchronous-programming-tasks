@@ -1,5 +1,23 @@
 import fs from 'fs';
 
-// BEGIN
+const watch = (filepath, period, callback) => {
+  let lastModified = Date.now();
 
-// END
+  const id = setInterval(() => {
+    fs.stat(filepath, (err, stats) => {
+      if (err) {
+        clearInterval(id);
+        callback(err);
+        return;
+      }
+      if (stats.mtimeMs > lastModified) {
+        lastModified = stats.mtimeMs;
+        callback(null);
+      }
+    });
+  }, period);
+
+  return id;
+};
+
+export default watch;
